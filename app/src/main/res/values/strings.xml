@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Personal-Finance-Manager</string>
+    <string name="welcome_text"><b><i>Welcome to <font color="#831B19">PiggyPal!</font></i></b></string>
 </resources>
