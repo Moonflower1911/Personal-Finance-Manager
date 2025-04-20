@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">Personal-Finance-Manager</string>
+    <string name="welcome_text">Welcome to PiggyPal !</string>
+
+    <string name="default_web_client_id">286202637308-s70svgdl0gv1i6k82rqpou3fjgbac4t7.apps.googleusercontent.com</string>
 </resources>

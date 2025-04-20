@@ -1,0 +1,22 @@
+<resources>
+    <!-- Standard dimensions -->
+    <dimen name="small_margin">8dp</dimen>
+    <dimen name="medium_margin">16dp</dimen>
+    <dimen name="large_margin">24dp</dimen>
+    <dimen name="standard_padding">16dp</dimen>
+
+    <!-- Text sizes -->
+    <dimen name="small_text">14sp</dimen>
+    <dimen name="medium_text">18sp</dimen>
+    <dimen name="large_text">28sp</dimen>
+    <dimen name="button_text_size">18sp</dimen>
+
+    <!-- Component sizes -->
+    <dimen name="button_min_height">48dp</dimen>
+    <dimen name="button_spacing">8dp</dimen>
+    <dimen name="logo_size">350dp</dimen>
+    <dimen name="logo_top_margin">20dp</dimen>
+    <dimen name="bottom_panel_height">270dp</dimen>
+    <dimen name="large_top_margin">320dp</dimen>
+
+</resources>
