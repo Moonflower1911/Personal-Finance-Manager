@@ -3,4 +3,6 @@
     <string name="welcome_text">Welcome to PiggyPal !</string>
 
     <string name="default_web_client_id">286202637308-s70svgdl0gv1i6k82rqpou3fjgbac4t7.apps.googleusercontent.com</string>
+    <string name="add_category">Add Category</string>
+    <string name="account">Account</string>
 </resources>

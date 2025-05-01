@@ -3,4 +3,24 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="teal_700">#831B19FF</color>
+    <color name="burgundy">#831B19</color>
+    <color name="gray">#D9D9D9</color>
+    <color name="purple">#859BB0</color>
+    <color name="light_background">#F3F3F3</color> <!-- Main app background -->
+    <color name="nav_bar_background">#FFFACD</color> <!-- Bottom nav bar (light yellow) -->
+
+    <!-- Primary buttons -->
+    <color name="fab_background">#831B19</color> <!-- Add (+) button deep red -->
+    <color name="fab_icon_tint">#FFFFFF</color>   <!-- White icon inside FAB -->
+
+    <!-- Icon Circles -->
+    <color name="icon_circle">#F0B72A</color> <!-- Yellow-orange circle background -->
+    <color name="icon_pink">#FECEDC</color> <!-- Soft pink for icon inside the circle -->
+
+    <!-- Text -->
+    <color name="text_primary">#000000</color>
+    <color name="text_secondary">#666666</color>
+
+    <!-- Optional shadows/highlights -->
+    <color name="shadow">#66000000</color>
 </resources>

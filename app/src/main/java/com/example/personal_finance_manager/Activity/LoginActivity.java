@@ -55,7 +55,6 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
         emailInput = findViewById(R.id.inputEmail);
         passwordInput = findViewById(R.id.inputPassword);
         loginButton = findViewById(R.id.btnLogin);
@@ -72,8 +71,12 @@ public class LoginActivity extends AppCompatActivity {
 
         loginViewModel.getLoginSuccess().observe(this, success -> {
             if (Boolean.TRUE.equals(success)) {
-                startActivity(new Intent(this, MainActivity.class));
+                String email = emailInput.getText().toString();
+                Intent intent = new Intent(this, CategoryActivity.class);
+                intent.putExtra("userId", email); // pass the user’s email
+                startActivity(intent);
                 finish();
+
             }
         });
 
