@@ -42,9 +42,9 @@ public class CategoryViewModel extends AndroidViewModel {
                 categoryDao.insert(new CategoryEntity("Internet", R.drawable.ic_wifi, null));
                 categoryDao.insert(new CategoryEntity("Groceries", R.drawable.ic_groceries, null));
                 categoryDao.insert(new CategoryEntity("Transport", R.drawable.ic_transport, null));
-                categoryDao.insert(new CategoryEntity("Car Maintenance",R.drawable.ic_wrench,null));
+                categoryDao.insert(new CategoryEntity("Health",R.drawable.ic_health,null));
                 categoryDao.insert(new CategoryEntity("Food & Dining", R.drawable.ic_food, null));
-                categoryDao.insert(new CategoryEntity("Entertainment", R.drawable.ic_game, null));
+                categoryDao.insert(new CategoryEntity("Leisure", R.drawable.ic_game, null));
                 categoryDao.insert(new CategoryEntity("Clothing", R.drawable.ic_clothing, null));
                 categoryDao.insert(new CategoryEntity("Fitness", R.drawable.ic_dumbbell, null));
                 // Add more if needed

@@ -1,36 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="20dp"
-    android:background="@android:color/white">
+    android:fillViewport="true">
 
-    <EditText
-        android:id="@+id/inputAmount"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Amount spent"
-        android:inputType="numberDecimal"
-        android:padding="12dp"
-        android:background="@drawable/input_background" />
+        android:orientation="vertical"
+        android:padding="20dp"
+        android:background="@android:color/white">
 
-    <EditText
-        android:id="@+id/inputNote"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Note (optional)"
-        android:inputType="textCapSentences"
-        android:padding="12dp"
-        android:layout_marginTop="12dp"
-        android:background="@drawable/input_background" />
+        <EditText
+            android:id="@+id/inputAmount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Amount spent"
+            android:inputType="numberDecimal"
+            android:padding="12dp"
+            android:background="@drawable/input_background" />
 
-    <DatePicker
-        android:id="@+id/datePicker"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:calendarViewShown="true"
-        android:spinnersShown="false" />
+        <EditText
+            android:id="@+id/inputNote"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Note (optional)"
+            android:inputType="textCapSentences"
+            android:padding="12dp"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/input_background" />
 
-</LinearLayout>
+        <DatePicker
+            android:id="@+id/datePicker"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:calendarViewShown="true"
+            android:spinnersShown="false"
+            android:datePickerMode="spinner" />
+
+
+        <TextView
+            android:id="@+id/limitHint"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Limit: ..."
+            android:layout_marginTop="16dp"/>
+
+        <Button
+            android:id="@+id/btnSetLimit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Set Limit"
+            android:layout_gravity="end"
+            android:layout_marginTop="8dp" />
+    </LinearLayout>
+</ScrollView>
