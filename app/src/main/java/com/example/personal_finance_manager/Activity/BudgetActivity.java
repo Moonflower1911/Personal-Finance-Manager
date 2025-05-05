@@ -11,6 +11,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.content.Context;
+import android.os.Build;
+import androidx.core.app.NotificationCompat;
 
 import androidx.lifecycle.ViewModelProvider;
 
@@ -250,15 +255,15 @@ public class BudgetActivity extends BaseActivity {
         int percent = (limit > 0.001) ? (int) ((spent / limit) * 100) : 0;
         progressBar.setProgress(percent);
 
-// Tint logic
+// Color tint
         if (percent <= 50) {
-            progressBar.setProgressTintList(ColorStateList.valueOf(Color.parseColor("#4CAF50")));
+            progressBar.setProgressTintList(ColorStateList.valueOf(Color.parseColor("#4CAF50"))); // green
         } else if (percent <= 75) {
-            progressBar.setProgressTintList(ColorStateList.valueOf(Color.parseColor("#FFA500")));
+            progressBar.setProgressTintList(ColorStateList.valueOf(Color.parseColor("#FFA500"))); // orange
         } else {
-            progressBar.setProgressTintList(ColorStateList.valueOf(Color.parseColor("#F44336")));
+            progressBar.setProgressTintList(ColorStateList.valueOf(Color.parseColor("#F44336"))); // red
+            sendSpendingNotification(category.name, percent); // ✅ Trigger the notification
         }
-
         iconView.setImageResource(category.iconResId);
 
         return card;
@@ -308,4 +313,33 @@ public class BudgetActivity extends BaseActivity {
 
         budgetListLayout.addView(card);
     }
+
+    private void sendSpendingNotification(String categoryName, int percent) {
+        String channelId = "spending_alerts";
+        String channelName = "Spending Alerts";
+
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+        // Create channel for Android 8.0+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel channel = new NotificationChannel(
+                    channelId,
+                    channelName,
+                    NotificationManager.IMPORTANCE_HIGH
+            );
+            channel.setDescription("Notifies when category spending exceeds set limits");
+            notificationManager.createNotificationChannel(channel);
+        }
+
+        // Build the notification
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, channelId)
+                .setSmallIcon(R.drawable.ic_warning) // Make sure you have this icon
+                .setContentTitle("⚠️ Budget Alert: " + categoryName)
+                .setContentText("You've spent " + percent + "% of your " + categoryName + " budget.")
+                .setPriority(NotificationCompat.PRIORITY_HIGH);
+
+        // Notify (use category name hash to prevent ID collision)
+        notificationManager.notify(categoryName.hashCode(), builder.build());
+    }
+
 }
