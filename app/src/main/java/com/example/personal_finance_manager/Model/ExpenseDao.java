@@ -25,6 +25,10 @@ public interface ExpenseDao {
 
     @Query("SELECT SUM(amount) FROM expenses WHERE userId = :userId AND categoryId = :categoryId AND date LIKE :month || '%'")
     LiveData<Double> getTotalExpensesForCategory(String userId, int categoryId, String month);
+
+    @Query("SELECT * FROM expenses WHERE userId = :userId AND date LIKE :month || '%' ORDER BY date DESC")
+    LiveData<List<ExpenseEntity>> getExpensesForUserInMonth(String userId, String month);
+
 }
 
 

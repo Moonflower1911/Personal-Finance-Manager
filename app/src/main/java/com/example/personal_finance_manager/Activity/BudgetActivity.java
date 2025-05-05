@@ -1,6 +1,7 @@
 package com.example.personal_finance_manager.Activity;
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -106,21 +107,38 @@ public class BudgetActivity extends BaseActivity {
     }
 
     private void loadSummary() {
-        incomeViewModel.ensureIncomeForMonth(userId, currentMonth);
+        incomeViewModel.ensureIncomeForMonth(userId, currentMonth); // still run this to insert if needed
 
         incomeViewModel.getIncome(userId, currentMonth).observe(this, incomeEntity -> {
-            double incomeAmount = (incomeEntity != null) ? incomeEntity.incomeAmount : 0.0;
-            tvIncome.setText(incomeAmount + " MAD");
+            if (incomeEntity == null || incomeEntity.incomeAmount == 0.0) {
+                // Fallback to defaultIncome
+                userViewModel.getUserById(userId).observe(this, user -> {
+                    double fallbackIncome = (user != null) ? user.defaultIncome : 0.0;
+                    tvIncome.setText(fallbackIncome + " MAD");
 
-            expenseViewModel.getTotalExpensesForUserMonth(userId, currentMonth).observe(this, totalExpenses -> {
-                double expenses = (totalExpenses != null) ? totalExpenses : 0.0;
-                double balance = incomeAmount - expenses;
+                    expenseViewModel.getTotalExpensesForUserMonth(userId, currentMonth).observe(this, totalExpenses -> {
+                        double expenses = (totalExpenses != null) ? totalExpenses : 0.0;
+                        double balance = fallbackIncome - expenses;
 
-                tvExpense.setText(expenses + " MAD");
-                tvBalance.setText(balance + " MAD");
-            });
+                        tvExpense.setText(expenses + " MAD");
+                        tvBalance.setText(balance + " MAD");
+                    });
+                });
+            } else {
+                double incomeAmount = incomeEntity.incomeAmount;
+                tvIncome.setText(incomeAmount + " MAD");
+
+                expenseViewModel.getTotalExpensesForUserMonth(userId, currentMonth).observe(this, totalExpenses -> {
+                    double expenses = (totalExpenses != null) ? totalExpenses : 0.0;
+                    double balance = incomeAmount - expenses;
+
+                    tvExpense.setText(expenses + " MAD");
+                    tvBalance.setText(balance + " MAD");
+                });
+            }
         });
     }
+
 
 
     private void updateSummaryUI(double incomeAmount) {
@@ -229,7 +247,18 @@ public class BudgetActivity extends BaseActivity {
         }
 
         progressBar.setMax(100);
-        progressBar.setProgress(limit > 0 ? (int) ((spent / limit) * 100) : 0);
+        int percent = (limit > 0.001) ? (int) ((spent / limit) * 100) : 0;
+        progressBar.setProgress(percent);
+
+// Tint logic
+        if (percent <= 50) {
+            progressBar.setProgressTintList(ColorStateList.valueOf(Color.parseColor("#4CAF50")));
+        } else if (percent <= 75) {
+            progressBar.setProgressTintList(ColorStateList.valueOf(Color.parseColor("#FFA500")));
+        } else {
+            progressBar.setProgressTintList(ColorStateList.valueOf(Color.parseColor("#F44336")));
+        }
+
         iconView.setImageResource(category.iconResId);
 
         return card;
