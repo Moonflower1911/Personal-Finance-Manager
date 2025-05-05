@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.Update;
 
 @Dao
 public interface UserDao {
@@ -24,6 +25,15 @@ public interface UserDao {
     @Query("UPDATE users SET defaultIncome = :amount WHERE email = :userId")
     void updateDefaultIncome(String userId, double amount);
 
+    @Query("SELECT * FROM users WHERE email = :email LIMIT 1")
+    LiveData<UserEntity> getUserById(String email);
+
+    @Query("SELECT * FROM users WHERE email = :email LIMIT 1")
+    UserEntity getUserByIdRaw(String email);
+
+
+    @Update
+    void update(UserEntity user);
 
 
 

@@ -8,6 +8,7 @@ import androidx.lifecycle.LiveData;
 
 import com.example.personal_finance_manager.Model.AppDatabase;
 import com.example.personal_finance_manager.Model.UserDao;
+import com.example.personal_finance_manager.Model.UserEntity;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -29,4 +30,22 @@ public class UserViewModel extends AndroidViewModel {
     public void updateDefaultIncome(String userId, double income) {
         executor.execute(() -> userDao.updateDefaultIncome(userId, income));
     }
+
+    public void updateUserInfo(String email, String fullName, double defaultIncome) {
+        Executors.newSingleThreadExecutor().execute(() -> {
+            UserEntity user = userDao.getUserByIdRaw(email);
+            if (user != null) {
+                user.fullName = fullName;
+                user.defaultIncome = defaultIncome;
+                userDao.update(user);
+            }
+        });
+    }
+
+
+
+    public LiveData<UserEntity> getUserById(String userId) {
+        return userDao.getUserById(userId);
+    }
+
 }

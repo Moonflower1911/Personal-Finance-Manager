@@ -23,9 +23,11 @@ import com.example.personal_finance_manager.ViewModel.UserViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.time.LocalDate;
+import java.time.format.TextStyle;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 
 public class BudgetActivity extends BaseActivity {
@@ -65,6 +67,15 @@ public class BudgetActivity extends BaseActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             currentMonth = LocalDate.now().toString().substring(0, 7); // "yyyy-MM"
         }
+
+        TextView tvMonth = findViewById(R.id.budgetMonth);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            LocalDate now = LocalDate.now();
+            currentMonth = now.toString().substring(0, 7);
+            String formattedMonth = now.getMonth().getDisplayName(TextStyle.FULL, Locale.ENGLISH);
+            tvMonth.setText(formattedMonth + " - " + now.getYear());
+        }
+
 
         tvIncome = findViewById(R.id.tvIncome);
         tvExpense = findViewById(R.id.tvExpense);
@@ -199,7 +210,14 @@ public class BudgetActivity extends BaseActivity {
         ImageView iconView = card.findViewById(R.id.budgetIcon);
 
         tvCategory.setText(category.name);
-        tvLimit.setText("Limit: " + limit + " MAD");
+        if (limit == 0.0) {
+            tvLimit.setText("No limit set");
+            tvRemaining.setVisibility(View.GONE);
+            progressBar.setVisibility(View.GONE);
+        } else {
+            tvLimit.setText("Limit: " + limit + " MAD");
+            progressBar.setVisibility(View.VISIBLE);
+        }
         tvSpent.setText("Spent: " + spent + " MAD");
 
         if (spent > limit && limit > 0) {
@@ -229,7 +247,14 @@ public class BudgetActivity extends BaseActivity {
         ImageView iconView = card.findViewById(R.id.budgetIcon);
 
         tvCategory.setText(category.name);
-        tvLimit.setText("Limit: " + limit + " MAD");
+        if (limit == 0.0) {
+            tvLimit.setText("No limit set");
+            tvRemaining.setVisibility(View.GONE);
+            progressBar.setVisibility(View.GONE);
+        } else {
+            tvLimit.setText("Limit: " + limit + " MAD");
+            progressBar.setVisibility(View.VISIBLE);
+        }
         tvSpent.setText("Spent: " + spent + " MAD");
 
         // Remaining vs Over Limit

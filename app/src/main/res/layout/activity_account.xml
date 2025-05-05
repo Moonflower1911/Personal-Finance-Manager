@@ -3,7 +3,91 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/gray">
+
+    <!-- Scrollable content (Account settings) -->
+    <ScrollView
+        android:id="@+id/accountScroll"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/bottomNavBar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:padding="24dp">
+
+            <ImageView
+                android:id="@+id/imgProfile"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@drawable/ic_account"
+                android:background="@drawable/bg_circle"
+                android:scaleType="centerCrop"
+                android:layout_marginTop="16dp"/>
+
+            <EditText
+                android:id="@+id/etUsername"
+                android:minHeight="48dp"
+                android:autofillHints="username"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Username"
+                android:inputType="textPersonName"
+                android:layout_marginTop="16dp"/>
+
+            <EditText
+                android:id="@+id/etEmail"
+                android:minHeight="48dp"
+                android:autofillHints="emailAddress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Email"
+                android:inputType="textEmailAddress"
+                android:layout_marginTop="8dp"/>
+
+            <EditText
+                android:id="@+id/etDefaultIncome"
+                android:minHeight="48dp"
+                android:autofillHints="username"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Default Income"
+                android:inputType="numberDecimal"
+                android:layout_marginTop="8dp" />
+
+            <Button
+                android:id="@+id/btnSave"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Save Changes"
+                android:layout_marginTop="16dp" />
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- Floating Add Button -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabAddCategory"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_marginBottom="30dp"
+        android:src="@drawable/ic_add"
+        app:backgroundTint="@color/burgundy"
+        app:tint="@android:color/white"
+        app:elevation="6dp"
+        app:pressedTranslationZ="12dp"
+        android:contentDescription="@string/add_category"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+    <!-- Bottom Navigation Bar -->
     <LinearLayout
         android:id="@+id/bottomNavBar"
         android:layout_width="0dp"
@@ -24,8 +108,8 @@
             android:layout_weight="1"
             android:orientation="vertical"
             android:gravity="center">
-
             <ImageView
+                android:id="@+id/iconRecords"
                 android:layout_width="28dp"
                 android:layout_height="28dp"
                 android:alpha="0.5"
@@ -36,7 +120,6 @@
                 android:text="Records"
                 android:textSize="12sp"
                 android:textColor="#000"/>
-
         </LinearLayout>
 
         <!-- Budget -->
@@ -47,7 +130,6 @@
             android:layout_weight="1"
             android:orientation="vertical"
             android:gravity="center">
-
             <ImageView
                 android:id="@+id/iconBudget"
                 android:layout_width="28dp"
@@ -60,15 +142,13 @@
                 android:text="Budget"
                 android:textSize="12sp"
                 android:textColor="#000"/>
-
         </LinearLayout>
 
-        <!-- Spacer for FAB -->
+        <!-- Spacer -->
         <View
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1" />
-
+            android:layout_weight="1"/>
 
         <!-- Analysis -->
         <LinearLayout
@@ -78,8 +158,8 @@
             android:layout_weight="1"
             android:orientation="vertical"
             android:gravity="center">
-
             <ImageView
+                android:id="@+id/iconAnalysis"
                 android:layout_width="28dp"
                 android:layout_height="28dp"
                 android:alpha="0.5"
@@ -90,7 +170,6 @@
                 android:text="Analysis"
                 android:textSize="12sp"
                 android:textColor="#000"/>
-
         </LinearLayout>
 
         <!-- Account -->
@@ -101,7 +180,6 @@
             android:layout_weight="1"
             android:orientation="vertical"
             android:gravity="center">
-
             <ImageView
                 android:id="@+id/iconAccount"
                 android:layout_width="28dp"
@@ -114,51 +192,7 @@
                 android:text="Account"
                 android:textSize="12sp"
                 android:textColor="#000"/>
-
         </LinearLayout>
     </LinearLayout>
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabAddCategory"
-        android:layout_width="56dp"
-        android:layout_height="56dp"
-        android:layout_marginBottom="30dp"
-        android:src="@drawable/ic_add"
-        app:backgroundTint="@color/burgundy"
-        app:tint="@android:color/white"
-        app:elevation="6dp"
-        app:pressedTranslationZ="12dp"
-        android:contentDescription="@string/add_category"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
-    <TextView
-        android:id="@+id/tvTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Set Your Default Monthly Income"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
 
-    <EditText
-        android:id="@+id/etDefaultIncome"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:minHeight="48dp"
-    android:hint="e.g., 8000 MAD"
-        android:inputType="numberDecimal"
-        app:layout_constraintTop_toBottomOf="@id/tvTitle"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp"/>
-
-    <Button
-        android:id="@+id/btnSaveIncome"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Save Income"
-        app:layout_constraintTop_toBottomOf="@id/etDefaultIncome"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="24dp"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

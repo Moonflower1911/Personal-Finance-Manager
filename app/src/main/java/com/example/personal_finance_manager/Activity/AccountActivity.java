@@ -24,7 +24,7 @@ public class AccountActivity extends BaseActivity {
 
     private IncomeViewModel incomeViewModel;
     private String userId;
-    private EditText etIncome;
+    private EditText etIncome,etUsername, etEmail;
     private Button btnSave;
 
     @Override
@@ -48,7 +48,15 @@ public class AccountActivity extends BaseActivity {
         });
 
         etIncome = findViewById(R.id.etDefaultIncome);
-        btnSave = findViewById(R.id.btnSaveIncome);
+        etUsername = findViewById(R.id.etUsername);
+        etEmail = findViewById(R.id.etEmail); // still readonly for now
+
+        btnSave = findViewById(R.id.btnSave);
+        etEmail.setFocusable(false);
+        etEmail.setClickable(false);
+        etEmail.setLongClickable(false);
+        etEmail.setCursorVisible(false);
+        etEmail.setBackground(null); // remove underline if needed
 
         userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
 
@@ -58,25 +66,33 @@ public class AccountActivity extends BaseActivity {
             }
         });
 
-        btnSave.setOnClickListener(v -> {
-            String incomeText = etIncome.getText().toString().trim();
-            if (!incomeText.isEmpty()) {
-                double income = Double.parseDouble(incomeText);
-
-                // Save to user table
-                userViewModel.updateDefaultIncome(userId, income);
-
-                // Save to income table for current month
-                String currentMonth = null; // "yyyy-MM"
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    currentMonth = LocalDate.now().toString().substring(0, 7);
-                }
-                incomeViewModel.setIncomeForMonth(userId, currentMonth, income);  // implement this
-
-                Toast.makeText(this, "Default income updated", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(this, "Please enter a valid income", Toast.LENGTH_SHORT).show();
+        userViewModel.getUserById(userId).observe(this, user -> {
+            if (user != null) {
+                etUsername.setText(user.fullName);
+                etEmail.setText(user.email); // just display, not editable
+                etIncome.setText(String.valueOf(user.defaultIncome));
             }
+        });
+
+
+        btnSave.setOnClickListener(v -> {
+            String name = etUsername.getText().toString().trim();
+            String incomeStr = etIncome.getText().toString().trim();
+
+            if (name.isEmpty() || incomeStr.isEmpty()) {
+                Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            double income = Double.parseDouble(incomeStr);
+            userViewModel.updateUserInfo(userId, name, income); // email unchanged
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                String currentMonth = LocalDate.now().toString().substring(0, 7);
+                incomeViewModel.setIncomeForMonth(userId, currentMonth, income);
+            }
+
+            Toast.makeText(this, "Account info updated", Toast.LENGTH_SHORT).show();
         });
 
     }

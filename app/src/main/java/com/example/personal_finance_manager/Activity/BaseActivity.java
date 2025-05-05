@@ -35,13 +35,14 @@ public class BaseActivity extends AppCompatActivity {
             }
         });
 
-//        if (navRecords != null) {
-//            navRecords.setOnClickListener(v -> {
-//                Intent intent = new Intent(this, RecordsActivity.class);
-//                intent.putExtra("userId", userId);
-//                startActivity(intent);
-//            });
-//        }
+        navRecords.setOnClickListener(v -> {
+            if (!(this instanceof RecordsActivity)) { // Avoid reopening if already in BudgetActivity
+                Intent intent = new Intent(this, RecordsActivity.class);
+                intent.putExtra("userId", userId);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                startActivity(intent);
+            }
+        });
 
 //        if (navAnalysis != null) {
 //            navAnalysis.setOnClickListener(v -> {
