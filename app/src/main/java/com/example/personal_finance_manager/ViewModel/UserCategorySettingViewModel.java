@@ -10,6 +10,7 @@ import com.example.personal_finance_manager.Model.AppDatabase;
 import com.example.personal_finance_manager.Model.UserCategorySetting;
 import com.example.personal_finance_manager.Model.UserCategorySettingDao;
 
+import java.util.List;
 import java.util.concurrent.Executors;
 
 public class UserCategorySettingViewModel extends AndroidViewModel {
@@ -19,12 +20,17 @@ public class UserCategorySettingViewModel extends AndroidViewModel {
         super(application);
         settingDao = AppDatabase.getInstance(application).userCategorySettingDao();
     }
+    public LiveData<List<UserCategorySetting>> getAllLimitsForUserInMonth(String userId, String month) {
+        return settingDao.getAllLimitsForUserInMonth(userId, month);
+    }
 
-    public LiveData<Double> getLimit(String userId, int categoryId) {
-        return settingDao.getLimit(userId, categoryId);
+    public LiveData<Double> getLimit(String userId, int categoryId,String month) {
+        return settingDao.getLimit(userId, categoryId,month);
     }
 
     public void insertLimit(UserCategorySetting setting) {
         Executors.newSingleThreadExecutor().execute(() -> settingDao.insert(setting));
     }
+
+
 }

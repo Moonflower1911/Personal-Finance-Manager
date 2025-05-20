@@ -160,11 +160,11 @@ public class BudgetActivity extends BaseActivity {
 
 
     private void loadCategoryBudgetData(CategoryEntity category) {
-        // Observe limit once
-        userCategorySettingViewModel.getLimit(userId, category.id).observe(this, limitValue -> {
+        // Observe limit for current month
+        userCategorySettingViewModel.getLimit(userId, category.id, currentMonth).observe(this, limitValue -> {
             double limit = (limitValue != null) ? limitValue : 0.0;
 
-            // Observe spent once
+            // Observe spent for current month
             expenseViewModel.getTotalExpensesForCategory(userId, category.id, currentMonth)
                     .observe(this, spent -> {
                         double used = (spent != null) ? spent : 0.0;
@@ -201,7 +201,7 @@ public class BudgetActivity extends BaseActivity {
         final double[] limitHolder = { -1 };
         final double[] spentHolder = { -1 };
 
-        userCategorySettingViewModel.getLimit(userId, category.id).observe(this, limitValue -> {
+        userCategorySettingViewModel.getLimit(userId, category.id, currentMonth).observe(this, limitValue -> {
             limitHolder[0] = (limitValue != null) ? limitValue : 0.0;
             maybeAddCard(category, limitHolder[0], spentHolder[0]);
         });
