@@ -32,6 +32,8 @@ public interface ExpenseDao {
     @Query("SELECT * FROM expenses  WHERE userId = :userId AND categoryId = :categoryId AND strftime('%Y-%m', date) = :month")
     LiveData<List<ExpenseEntity>> getExpensesForCategoryMonth(String userId, int categoryId, String month);
 
+    @Query("SELECT * FROM expenses  WHERE userId = :userId AND strftime('%Y-%m', date) = :month")
+    LiveData<List<ExpenseEntity>> getExpensesForMonth(String userId, String month);
 }
 
 

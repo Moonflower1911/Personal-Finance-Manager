@@ -293,11 +293,13 @@ public class BudgetActivity extends BaseActivity {
 
                         TextView text = row.findViewById(R.id.transactionText);
                         ImageView deleteIcon = row.findViewById(R.id.deleteIcon);
-                        if (expense.note != null && !expense.note.trim().isEmpty()) {
-                            text.setText(expense.note + ":\t" + expense.amount + " MAD");
-                        } else {
-                            text.setText("Not Specified:\t" + expense.amount + " MAD");
-                        }
+                        String note = (expense.note != null && !expense.note.trim().isEmpty())
+                                ? expense.note
+                                : "Not Specified";
+
+                        String line = note + " | " + expense.amount + " MAD | " + expense.date;
+                        text.setText(line);
+
 
 
                         deleteIcon.setOnClickListener(v -> {

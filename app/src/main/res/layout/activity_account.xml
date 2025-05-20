@@ -80,6 +80,13 @@
                 android:textColor="@android:color/white"
                 android:backgroundTint="@color/burgundy"
                 android:layout_marginTop="16dp"/>
+            <Button
+                android:id="@+id/btnExportPdf"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Exporter PDF"
+                android:layout_marginTop="20dp" />
+
 
         </LinearLayout>
     </ScrollView>

@@ -44,4 +44,9 @@ public class ExpenseViewModel extends AndroidViewModel {
     public LiveData<List<ExpenseEntity>> getExpensesForCategoryMonth(String userId, int categoryId, String month) {
         return expenseDao.getExpensesForCategoryMonth(userId, categoryId, month);
     }
+
+    public LiveData<List<ExpenseEntity>> getExpensesForMonth(String userId, String month) {
+        return expenseDao.getExpensesForMonth(userId, month);
+    }
+
 }
