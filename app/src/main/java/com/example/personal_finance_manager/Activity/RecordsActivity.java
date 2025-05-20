@@ -99,6 +99,12 @@ public class RecordsActivity extends BaseActivity {
         setupMonthNavigation();
         loadCategoryMapThenRender();
     }
+    private void openAnalysis() {
+        Intent i = new Intent(RecordsActivity.this, AnalysisActivity.class);
+        i.putExtra("userId", userId);
+        i.putExtra("month", currentMonth);   //  <-- ajoute cette ligne
+        startActivity(i);
+    }
 
     private void setupMonthNavigation() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {

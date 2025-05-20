@@ -17,6 +17,12 @@ dependencyResolutionManagement {
         google()
         mavenCentral()
     }
+
+    repositories {
+        // Your existing repositories
+        maven { url = uri("https://jitpack.io") }
+    }
+
 }
 
 rootProject.name = "Personal-Finance-Manager"

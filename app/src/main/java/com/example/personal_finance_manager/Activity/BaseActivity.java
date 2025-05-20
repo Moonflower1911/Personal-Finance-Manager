@@ -15,6 +15,7 @@ public class BaseActivity extends AppCompatActivity {
         LinearLayout navRecords = findViewById(R.id.navRecords);
         LinearLayout navAnalysis = findViewById(R.id.navAnalysis);
 
+
         navBudget.setOnClickListener(v -> {
             if (!(this instanceof BudgetActivity)) { // Avoid reopening if already in BudgetActivity
                 Intent intent = new Intent(this, BudgetActivity.class);
@@ -43,7 +44,14 @@ public class BaseActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
+        navAnalysis.setOnClickListener(v -> {
+            if (!(this instanceof AnalysisActivity)) {
+                Intent i = new Intent(this, AnalysisActivity.class);
+                i.putExtra("userId", userId);
+                startActivity(i);
+                finish();
+            }
+        });
 //        if (navAnalysis != null) {
 //            navAnalysis.setOnClickListener(v -> {
 //                Intent intent = new Intent(this, AnalysisActivity.class);
