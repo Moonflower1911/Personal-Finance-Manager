@@ -15,11 +15,14 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.os.Build;
+
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.NotificationCompat;
 
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.personal_finance_manager.Model.CategoryEntity;
+import com.example.personal_finance_manager.Model.ExpenseEntity;
 import com.example.personal_finance_manager.R;
 import com.example.personal_finance_manager.ViewModel.CategoryViewModel;
 import com.example.personal_finance_manager.ViewModel.ExpenseViewModel;
@@ -223,8 +226,12 @@ public class BudgetActivity extends BaseActivity {
 
 
     private View createBudgetCard(CategoryEntity category, double limit, double spent, double remaining) {
-        View card = LayoutInflater.from(this).inflate(R.layout.item_budget_card, budgetListLayout, false);
 
+
+        View card = LayoutInflater.from(this).inflate(R.layout.item_budget_card, budgetListLayout, false);
+        card.setOnClickListener(v -> {
+            showTransactionListDialog(category);
+        });
         TextView tvCategory = card.findViewById(R.id.tvCategoryName);
         TextView tvLimit = card.findViewById(R.id.tvLimit);
         TextView tvSpent = card.findViewById(R.id.tvSpent);
@@ -269,6 +276,41 @@ public class BudgetActivity extends BaseActivity {
         return card;
     }
 
+    private void showTransactionListDialog(CategoryEntity category) {
+        View dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_transaction_list, null);
+        LinearLayout transactionListLayout = dialogView.findViewById(R.id.transactionListLayout);
+
+        AlertDialog dialog = new AlertDialog.Builder(this)
+                .setView(dialogView)
+                .setNegativeButton("Close", null)
+                .create();
+
+        expenseViewModel.getExpensesForCategoryMonth(userId, category.id, currentMonth)
+                .observe(this, expenses -> {
+                    transactionListLayout.removeAllViews();
+                    for (ExpenseEntity expense : expenses) {
+                        View row = LayoutInflater.from(this).inflate(R.layout.item_transaction_row, transactionListLayout, false);
+
+                        TextView text = row.findViewById(R.id.transactionText);
+                        ImageView deleteIcon = row.findViewById(R.id.deleteIcon);
+                        if (expense.note != null && !expense.note.trim().isEmpty()) {
+                            text.setText(expense.note + ":\t" + expense.amount + " MAD");
+                        } else {
+                            text.setText("Not Specified:\t" + expense.amount + " MAD");
+                        }
+
+
+                        deleteIcon.setOnClickListener(v -> {
+                            expenseViewModel.deleteExpense(expense);
+                            transactionListLayout.removeView(row);
+                        });
+
+                        transactionListLayout.addView(row);
+                    }
+                });
+
+        dialog.show();
+    }
 
     private void addBudgetCard(CategoryEntity category, double limit, double spent, double remaining) {
         View card = LayoutInflater.from(this).inflate(R.layout.item_budget_card, budgetListLayout, false);

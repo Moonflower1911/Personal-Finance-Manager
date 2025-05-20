@@ -41,7 +41,8 @@
                 android:layout_height="wrap_content"
                 android:hint="Username"
                 android:inputType="textPersonName"
-                android:layout_marginTop="16dp"/>
+                android:layout_marginTop="16dp"
+                android:enabled="false"/>
 
             <EditText
                 android:id="@+id/etEmail"
@@ -51,7 +52,8 @@
                 android:layout_height="wrap_content"
                 android:hint="Email"
                 android:inputType="textEmailAddress"
-                android:layout_marginTop="8dp"/>
+                android:layout_marginTop="8dp"
+                android:enabled="false"/>
 
             <EditText
                 android:id="@+id/etDefaultIncome"
@@ -61,14 +63,24 @@
                 android:layout_height="wrap_content"
                 android:hint="Default Income"
                 android:inputType="numberDecimal"
-                android:layout_marginTop="8dp" />
+                android:layout_marginTop="8dp"
+                android:enabled="false"/>
 
             <Button
-                android:id="@+id/btnSave"
+                android:id="@+id/btnEdit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Save Changes"
-                android:layout_marginTop="16dp" />
+                android:text="Update your info"
+                android:layout_marginTop="16dp"/>
+            <Button
+                android:id="@+id/btnLogout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Log Out"
+                android:textColor="@android:color/white"
+                android:backgroundTint="@color/burgundy"
+                android:layout_marginTop="16dp"/>
+
         </LinearLayout>
     </ScrollView>
 
