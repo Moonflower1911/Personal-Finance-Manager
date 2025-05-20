@@ -22,6 +22,7 @@ import com.example.personal_finance_manager.ViewModel.DailyExpenseGroup;
 import com.example.personal_finance_manager.ViewModel.ExpenseViewModel;
 import com.example.personal_finance_manager.ViewModel.IncomeViewModel;
 import com.example.personal_finance_manager.ViewModel.RecordsViewModel;
+import com.example.personal_finance_manager.ViewModel.UserCategorySettingViewModel;
 import com.example.personal_finance_manager.ViewModel.UserViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -45,8 +46,8 @@ public class RecordsActivity extends BaseActivity {
     private ExpenseViewModel expenseViewModel;
     private IncomeViewModel incomeViewModel;
     private UserViewModel userViewModel;
+    private UserCategorySettingViewModel userCategorySettingViewModel;
     private FloatingActionButton fab;
-
 
     private final Map<Integer, CategoryEntity> categoryMap = new HashMap<>();
 
@@ -56,32 +57,19 @@ public class RecordsActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_records);
 
-        // ✅ Get userId and validate
         userId = getIntent().getStringExtra("userId");
-        if (userId == null || userId.isEmpty()) {
-            Log.e("RecordsActivity", "No userId provided. Finishing activity.");
-            finish();
-            return;
-        }
+        if (userId == null) finish();
 
-        // ✅ Bottom navbar highlight
         setupBottomNavBar(userId);
-        LinearLayout navRecords = findViewById(R.id.navRecords);
-        navRecords.post(() -> {
-            ImageView recordsIcon = navRecords.findViewById(R.id.iconRecords);
-            if (recordsIcon != null) recordsIcon.setAlpha(1.0f);
-        });
-
         currentMonth = LocalDate.now().toString().substring(0, 7);
 
-        // ✅ ViewModel init
         recordsViewModel = new ViewModelProvider(this).get(RecordsViewModel.class);
         categoryViewModel = new ViewModelProvider(this).get(CategoryViewModel.class);
         expenseViewModel = new ViewModelProvider(this).get(ExpenseViewModel.class);
         incomeViewModel = new ViewModelProvider(this).get(IncomeViewModel.class);
         userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
+        userCategorySettingViewModel = new ViewModelProvider(this).get(UserCategorySettingViewModel.class);
 
-        // ✅ Bind views
         tvMonth = findViewById(R.id.budgetMonth);
         tvIncome = findViewById(R.id.tvIncome);
         tvExpense = findViewById(R.id.tvExpense);
@@ -91,7 +79,7 @@ public class RecordsActivity extends BaseActivity {
         expenseDetailsLayout = findViewById(R.id.expenseDetailsLayout);
         fab = findViewById(R.id.fabAddCategory);
         fab.setOnClickListener(v -> {
-            Intent intent = new Intent(RecordsActivity.this, CategoryActivity.class);
+            Intent intent = new Intent(this, CategoryActivity.class);
             intent.putExtra("userId", userId);
             startActivity(intent);
         });
@@ -132,41 +120,32 @@ public class RecordsActivity extends BaseActivity {
     private void loadCategoryMapThenRender() {
         categoryViewModel.getCategoriesForUser(userId).observe(this, categories -> {
             categoryMap.clear();
-            for (CategoryEntity c : categories) {
-                categoryMap.put(c.id, c);
-            }
+            for (CategoryEntity c : categories) categoryMap.put(c.id, c);
             loadSummary();
             loadGroupedExpenses();
         });
     }
 
     private void loadSummary() {
-        incomeViewModel.ensureIncomeForMonth(userId, currentMonth); // ensures entry exists
-
+        incomeViewModel.ensureIncomeForMonth(userId, currentMonth);
         incomeViewModel.getIncome(userId, currentMonth).observe(this, incomeEntity -> {
             if (incomeEntity == null || incomeEntity.incomeAmount == 0.0) {
                 userViewModel.getUserById(userId).observe(this, user -> {
                     double fallbackIncome = (user != null) ? user.defaultIncome : 0.0;
                     tvIncome.setText(fallbackIncome + " MAD");
-
                     expenseViewModel.getTotalExpensesForUserMonth(userId, currentMonth).observe(this, totalExpenses -> {
                         double expenses = (totalExpenses != null) ? totalExpenses : 0.0;
-                        double balance = fallbackIncome - expenses;
-
                         tvExpense.setText(expenses + " MAD");
-                        tvBalance.setText(balance + " MAD");
+                        tvBalance.setText((fallbackIncome - expenses) + " MAD");
                     });
                 });
             } else {
-                double incomeAmount = incomeEntity.incomeAmount;
-                tvIncome.setText(incomeAmount + " MAD");
-
+                double income = incomeEntity.incomeAmount;
+                tvIncome.setText(income + " MAD");
                 expenseViewModel.getTotalExpensesForUserMonth(userId, currentMonth).observe(this, totalExpenses -> {
                     double expenses = (totalExpenses != null) ? totalExpenses : 0.0;
-                    double balance = incomeAmount - expenses;
-
                     tvExpense.setText(expenses + " MAD");
-                    tvBalance.setText(balance + " MAD");
+                    tvBalance.setText((income - expenses) + " MAD");
                 });
             }
         });
@@ -178,7 +157,6 @@ public class RecordsActivity extends BaseActivity {
             LayoutInflater inflater = LayoutInflater.from(this);
 
             for (DailyExpenseGroup group : groupedList) {
-                // Date header
                 TextView dayHeader = new TextView(this);
                 dayHeader.setText(group.date);
                 dayHeader.setTextSize(16f);
@@ -192,6 +170,7 @@ public class RecordsActivity extends BaseActivity {
                     TextView tvCategory = card.findViewById(R.id.tvCategoryName);
                     TextView tvNote = card.findViewById(R.id.tvNote);
                     TextView tvAmount = card.findViewById(R.id.tvAmount);
+                    TextView tvLimitInfo = card.findViewById(R.id.tvLimitInfo);
                     ImageView icon = card.findViewById(R.id.ivCategoryIcon);
 
                     CategoryEntity category = categoryMap.get(expense.categoryId);
@@ -206,6 +185,22 @@ public class RecordsActivity extends BaseActivity {
                     tvNote.setText(expense.note != null ? expense.note : "");
                     tvAmount.setText("-" + expense.amount + " MAD");
                     tvAmount.setTextColor(Color.RED);
+
+                    userCategorySettingViewModel.getLimit(userId, expense.categoryId, currentMonth).observe(this, limit -> {
+                        double categoryLimit = (limit != null) ? limit : 0.0;
+                        expenseViewModel.getTotalExpensesForCategory(userId, expense.categoryId, currentMonth).observe(this, spent -> {
+                            double totalSpent = (spent != null) ? spent : 0.0;
+                            double remaining = categoryLimit - totalSpent;
+
+                            if (limit == null) {
+                                tvLimitInfo.setText("No limit set");
+                                tvLimitInfo.setTextColor(Color.GRAY);
+                            } else {
+                                tvLimitInfo.setText("Limit: " + categoryLimit + " MAD, Remaining: " + remaining + " MAD");
+                                tvLimitInfo.setTextColor(remaining < 0 ? Color.RED : Color.DKGRAY);
+                            }
+                        });
+                    });
 
                     expenseDetailsLayout.addView(card);
                 }

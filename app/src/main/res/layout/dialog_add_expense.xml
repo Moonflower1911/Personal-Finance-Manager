@@ -40,19 +40,7 @@
             android:datePickerMode="spinner" />
 
 
-        <TextView
-            android:id="@+id/limitHint"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Limit: ..."
-            android:layout_marginTop="16dp"/>
 
-        <Button
-            android:id="@+id/btnSetLimit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Set Limit"
-            android:layout_gravity="end"
-            android:layout_marginTop="8dp" />
+
     </LinearLayout>
 </ScrollView>

@@ -28,7 +28,10 @@ import com.example.personal_finance_manager.ViewModel.ExpenseViewModel;
 import com.example.personal_finance_manager.ViewModel.UserCategorySettingViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 public class CategoryActivity extends BaseActivity {
 
@@ -90,7 +93,7 @@ public class CategoryActivity extends BaseActivity {
         adapter = new CategoryAdapter(new CategoryAdapter.OnCategoryClickListener() {
             @Override
             public void onCategoryClick(CategoryEntity category) {
-                showExpenseDialog(category);
+                showCategoryOptionsDialog(category);
             }
 
             @Override
@@ -152,7 +155,50 @@ public class CategoryActivity extends BaseActivity {
                 .setNegativeButton("Cancel", null)
                 .show();
     }
+    private void showCategoryOptionsDialog(CategoryEntity category) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("What would you like to do?");
+        String[] options = {"Add Transaction", "Add or Update Limit"};
 
+        builder.setItems(options, (dialog, which) -> {
+            if (which == 0) {
+                showExpenseDialog(category); // ➕ Add Transaction
+            } else if (which == 1) {
+                showSetLimitDialog(category); // ✏️ Add or Update Limit
+            }
+        });
+
+        builder.setNegativeButton("Cancel", null);
+        builder.show();
+    }
+
+    private void showSetLimitDialog(CategoryEntity category) {
+        View view = LayoutInflater.from(this).inflate(R.layout.dialog_set_limit, null);
+        EditText inputLimit = view.findViewById(R.id.inputLimit);
+        TextView limitLabel = view.findViewById(R.id.limitMonthLabel);
+
+        String currentMonth = new SimpleDateFormat("yyyy-MM", Locale.getDefault()).format(new Date());
+        limitLabel.setText("Set limit for " + currentMonth);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Set Limit - " + category.name);
+        builder.setView(view);
+
+        builder.setPositiveButton("Save", (dialog, which) -> {
+            String input = inputLimit.getText().toString().trim();
+            if (!input.isEmpty()) {
+                double limit = Double.parseDouble(input);
+                UserCategorySetting setting = new UserCategorySetting(userId, category.id, limit, currentMonth);
+                userCategorySettingViewModel.insertLimit(setting);
+                Toast.makeText(this, "Limit set!", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "Limit cannot be empty", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        builder.setNegativeButton("Cancel", null);
+        builder.show();
+    }
 
     private void promptSetLimit(CategoryEntity category) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -165,7 +211,9 @@ public class CategoryActivity extends BaseActivity {
 
         builder.setPositiveButton("Set", (dialog, which) -> {
             double limit = Double.parseDouble(input.getText().toString());
-            UserCategorySetting setting = new UserCategorySetting(userId, category.id, limit);
+            String currentMonth = new SimpleDateFormat("yyyy-MM", Locale.getDefault()).format(new Date());
+
+            UserCategorySetting setting = new UserCategorySetting(userId, category.id, limit, currentMonth);
             userCategorySettingViewModel.insertLimit(setting);
             showExpenseDialog(category); // continue with adding expense
         });
@@ -196,21 +244,8 @@ public class CategoryActivity extends BaseActivity {
             );
         });
 
-
-
-        TextView limitHint = view.findViewById(R.id.limitHint);
-        Button setLimitBtn = view.findViewById(R.id.btnSetLimit); // new button
-
         // Load existing limit
-        userCategorySettingViewModel.getLimit(userId, category.id).observe(this, limit -> {
-            if (limit != null) {
-                limitHint.setText("Limit: " + limit + " MAD");
-            } else {
-                limitHint.setText("No limit set");
-            }
-        });
-
-        setLimitBtn.setOnClickListener(v -> promptSetLimit(category));
+        String currentMonth = new SimpleDateFormat("yyyy-MM", Locale.getDefault()).format(new Date());
 
         builder.setView(view);
         builder.setPositiveButton("Add", (dialog, which) -> {
