@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -77,27 +78,41 @@
             android:background="#A9B7C6"/>
     </androidx.cardview.widget.CardView>
 
-    <!-- Recommendations Section -->
+    <!-- Bar Chart Header -->
     <TextView
-        android:id="@+id/tvRecommendationsTitle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="8dp"
-        android:text="Recommendations (ML)"
-        android:textColor="#000000"
-        android:textStyle="bold"
-        android:textSize="16sp"
-        app:layout_constraintTop_toBottomOf="@id/chartCard"/>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvRecommendations"
+        android:id="@+id/tvBarChartTitle"
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:padding="8dp"
-        app:layout_constraintTop_toBottomOf="@id/tvRecommendationsTitle"
+        android:layout_height="wrap_content"
+        android:padding="12dp"
+        android:text="📊 Income vs Expenses (Last 6 Months)"
+        android:textStyle="bold"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp"
+        android:background="@color/burgundy"
+        app:layout_constraintTop_toBottomOf="@id/chartCard"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/bottomNavBar"/>
+        android:elevation="4dp"/>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/barChartCard"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="12dp"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="8dp"
+        app:layout_constraintTop_toBottomOf="@id/tvBarChartTitle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.30">
+
+        <com.github.mikephil.charting.charts.BarChart
+            android:id="@+id/barChart"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="16dp"
+            android:background="#FFFFFF"/>
+    </androidx.cardview.widget.CardView>
 
     <!-- Floating Action Button -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton

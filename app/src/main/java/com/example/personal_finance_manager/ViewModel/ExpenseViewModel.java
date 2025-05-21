@@ -1,4 +1,10 @@
 package com.example.personal_finance_manager.ViewModel;
+import androidx.lifecycle.LiveData;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.List;
+import java.util.Locale;
 
 import android.app.Application;
 
@@ -41,4 +47,21 @@ public class ExpenseViewModel extends AndroidViewModel {
     public LiveData<Double> getTotalExpensesForCategory(String userId, int categoryId, String month) {
         return expenseDao.getTotalExpensesForCategory(userId, categoryId, month);
     }
+
+    public LiveData<List<ExpenseEntity>> getExpensesFromLastSixMonths(String userId) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.MONTH, -6); // Go back 6 months
+
+        // Format the date to yyyy-MM-dd
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        String startDate = sdf.format(calendar.getTime()); // <--- calendar.getTime() returns a Date
+
+        return expenseDao.getExpensesFromLastSixMonths(userId, startDate);
+    }
+    private float totalExpenses;
+
+
+
+
+
 }
