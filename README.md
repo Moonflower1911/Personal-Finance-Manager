@@ -1,6 +1,5 @@
 # 💰 Personal Finance Manager - Gestionnaire de Finances Personnelles
 
-![App Screenshot](https://i.imgur.com/sample-image.png)
 
 An Android mobile application to track expenses, manage monthly budgets, analyze finances, and get personalized recommendations.
 
@@ -52,32 +51,37 @@ Une application mobile Android pour suivre ses dépenses, gérer son budget mens
 
 ### Setup Instructions / Configuration
 
-* **Clone the repository**
+1. **Clone the repository**
    ```bash
    git clone https://github.com/votre-repo/finance-manager.git
    cd finance-manager
-* **Firebase Configuration:**
-Create project in Firebase Console
-Add Android app and download google-services.json
-Enable authentication (Email/Password + Google)
-* **Run the app:**
-Open in Android Studio
-Build the project
-Run on emulator or physical device
+2. **Firebase Configuration:**
+* Create project in Firebase Console
+*  Android app and download google-services.json
+* Enable authentication (Email/Password + Google)
+3. **Run the app:**
+* Open in Android Studio
+* Build the project
+* Run on emulator or physical device
 
-📂 Project Structure
+
+### Alternative Approaches:
+
+
+## 📂 Project Structure
+
+```text
 finance-manager/
 ├── app/
-│   ├── src/
-│   │   ├── main/
-│   │   │   ├── java/com/example/personal_finance/
-│   │   │   │   ├── activities/       # All Activities
-│   │   │   │   ├── adapters/         # RecyclerView Adapters  
-│   │   │   │   ├── models/           # Data Models
-│   │   │   │   ├── viewmodels/       # ViewModels
-│   │   │   │   ├── repositories/     # Data Repositories
-│   │   │   │   └── utils/            # Utility classes
-│   │   │   ├── res/                  # Resources
-│   │   │   └── assets/               # ML Models
-│   ├── build.gradle                  # App-level config
-└── build.gradle                      # Project-level config
+│   ├── src/main/
+│   │   ├── java/com/example/personal_finance/
+│   │   │   ├── activities/
+│   │   │   ├── adapters/
+│   │   │   ├── models/
+│   │   │   ├── viewmodels/
+│   │   │   ├── repositories/
+│   │   │   └── utils/
+│   │   ├── res/
+│   │   └── assets/
+│   ├── build.gradle
+└── build.gradle
