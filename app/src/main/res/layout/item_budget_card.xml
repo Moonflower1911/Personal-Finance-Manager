@@ -7,29 +7,45 @@
     android:layout_marginBottom="16dp"
     card_view:cardCornerRadius="16dp"
     card_view:cardElevation="6dp"
-    android:background="@android:color/white"
-    card_view:cardUseCompatPadding="true">
+    card_view:cardUseCompatPadding="true"
+    android:background="@android:color/white">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:padding="12dp"
         android:background="@color/light_background">
 
+        <!-- 💡 Lightbulb Recommendation Icon -->
+        <ImageView
+            android:id="@+id/btnRecommend"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:src="@drawable/ic_lightbulb"
+            android:contentDescription="Get Recommendation"
+            android:visibility="gone" />
+
+        <!-- Icon -->
         <ImageView
             android:id="@+id/budgetIcon"
             android:layout_width="48dp"
             android:layout_height="48dp"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="12dp"
             android:src="@drawable/ic_placeholder"
             android:contentDescription="Budget icon" />
 
+        <!-- Text Container -->
         <LinearLayout
             android:id="@+id/textContainer"
-            android:layout_width="0dp"
-            android:layout_weight="1"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/budgetIcon"
+            android:layout_alignTop="@id/budgetIcon"
+            android:layout_marginStart="8dp"
             android:orientation="vertical">
 
             <TextView
@@ -72,6 +88,6 @@
                 android:progress="0"
                 android:progressTint="@color/burgundy" />
         </LinearLayout>
-    </LinearLayout>
 
+    </RelativeLayout>
 </androidx.cardview.widget.CardView>

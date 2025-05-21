@@ -1,154 +1,190 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/gray"
+    android:background="@color/light_gray"
     tools:context=".Activity.RecordsActivity">
 
     <!-- Month Navigation Header -->
-    <LinearLayout
+    <com.google.android.material.card.MaterialCardView
         android:id="@+id/monthNavigation"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center"
+        android:layout_marginHorizontal="16dp"
         android:layout_marginTop="16dp"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintTop_toTopOf="parent"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="2dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-
-        <ImageView
-            android:id="@+id/btnPreviousMonth"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:src="@drawable/ic_arrow_left"
-            android:contentDescription="Previous month"
-            android:padding="4dp" />
-
-        <TextView
-            android:id="@+id/budgetMonth"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="January - 2025"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp" />
-
-        <ImageView
-            android:id="@+id/btnNextMonth"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:src="@drawable/ic_arrow_right"
-            android:contentDescription="Next month"
-            android:padding="4dp" />
-    </LinearLayout>
-
-    <!-- Summary Section: Income / Expense / Balance -->
-    <LinearLayout
-        android:id="@+id/topSummary"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp"
-        app:layout_constraintTop_toBottomOf="@id/monthNavigation"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginVertical="8dp"
+            android:gravity="center"
             android:orientation="horizontal"
-            android:weightSum="3"
-            android:layout_marginTop="4dp">
+            android:paddingHorizontal="16dp">
 
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_weight="1"
+            <ImageView
+                android:id="@+id/btnPreviousMonth"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:contentDescription="Previous month"
+                android:padding="4dp"
+                android:src="@drawable/ic_arrow_left"
+                 />
+
+            <TextView
+                android:id="@+id/budgetMonth"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:gravity="center">
+                android:layout_marginHorizontal="16dp"
+                android:text="January - 2025"
+                android:textColor="@color/dark_text"
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
-                <TextView
-                    android:text="INCOME"
-                    android:textStyle="bold"
-                    android:textSize="14sp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-                <TextView
-                    android:id="@+id/tvIncome"
-                    android:text="10000 MAD"
-                    android:textSize="14sp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:gravity="center">
-
-                <TextView
-                    android:text="EXPENSE"
-                    android:textStyle="bold"
-                    android:textSize="14sp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-                <TextView
-                    android:id="@+id/tvExpense"
-                    android:text="4000 MAD"
-                    android:textSize="14sp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:gravity="center">
-
-                <TextView
-                    android:text="BALANCE"
-                    android:textStyle="bold"
-                    android:textSize="14sp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-                <TextView
-                    android:id="@+id/tvBalance"
-                    android:text="6000 MAD"
-                    android:textSize="14sp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-            </LinearLayout>
+            <ImageView
+                android:id="@+id/btnNextMonth"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:contentDescription="Next month"
+                android:padding="4dp"
+                android:src="@drawable/ic_arrow_right"
+                 />
         </LinearLayout>
-    </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
 
-    <!-- Scrollable list of daily expenses -->
-    <ScrollView
-        android:id="@+id/recodsScroll"
-        android:importantForAccessibility="no"
+    <!-- Summary Section: Income / Expense / Balance -->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/topSummary"
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintTop_toBottomOf="@id/topSummary"
-        app:layout_constraintBottom_toTopOf="@id/bottomNavBar"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="8dp"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="2dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/monthNavigation">
 
         <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:orientation="horizontal"
+                android:weightSum="3">
+
+                <!-- Income -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="INCOME"
+                        android:textColor="@color/income_green"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/tvIncome"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="10000 MAD"
+                        android:textColor="@color/dark_text"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+                <!-- Expense -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="EXPENSE"
+                        android:textColor="@color/expense_red"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/tvExpense"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="4000 MAD"
+                        android:textColor="@color/dark_text"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+                <!-- Balance -->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="BALANCE"
+                        android:textColor="@color/balance_blue"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/tvBalance"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="6000 MAD"
+                        android:textColor="@color/dark_text"
+                        android:textSize="16sp" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <!-- Scrollable list of daily expenses -->
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/recodsScroll"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:clipToPadding="false"
+        android:fillViewport="true"
+        android:paddingBottom="16dp"
+        app:layout_constraintBottom_toTopOf="@id/bottomNavBar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/topSummary"
+        android:contentDescription="Scroll area showing your financial records">
+
+
+    <LinearLayout
             android:id="@+id/expenseDetailsLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="12dp"
-            android:layout_marginBottom="80dp"/>
-    </ScrollView>
+            android:paddingHorizontal="16dp" />
+    </androidx.core.widget.NestedScrollView>
 
     <!-- Floating Add Button -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -165,7 +201,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
-
     <!-- Bottom Navigation Bar -->
     <LinearLayout
         android:id="@+id/bottomNavBar"
@@ -179,7 +214,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-        <!-- Records Tab -->
+        <!-- Records -->
         <LinearLayout
             android:id="@+id/navRecords"
             android:layout_width="0dp"
@@ -201,7 +236,7 @@
                 android:textColor="#000"/>
         </LinearLayout>
 
-        <!-- Budget Tab -->
+        <!-- Budget -->
         <LinearLayout
             android:id="@+id/navBudget"
             android:layout_width="0dp"
@@ -229,7 +264,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"/>
 
-        <!-- Analysis Tab -->
+        <!-- Analysis -->
         <LinearLayout
             android:id="@+id/navAnalysis"
             android:layout_width="0dp"
@@ -251,7 +286,7 @@
                 android:textColor="#000"/>
         </LinearLayout>
 
-        <!-- Account Tab -->
+        <!-- Account -->
         <LinearLayout
             android:id="@+id/navAccount"
             android:layout_width="0dp"
@@ -273,5 +308,6 @@
                 android:textColor="#000"/>
         </LinearLayout>
     </LinearLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

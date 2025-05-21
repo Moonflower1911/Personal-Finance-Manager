@@ -20,6 +20,7 @@
             android:contentDescription="Category Icon"/>
     </FrameLayout>
 
+
     <TextView
         android:id="@+id/category_name"
         android:layout_width="80dp"

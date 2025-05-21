@@ -37,6 +37,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
+
+
     <!-- Bottom Nav Bar -->
     <LinearLayout
         android:id="@+id/bottomNavBar"

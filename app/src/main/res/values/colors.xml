@@ -8,10 +8,20 @@
     <color name="purple">#859BB0</color>
     <color name="light_background">#F3F3F3</color> <!-- Main app background -->
     <color name="nav_bar_background">#FFFACD</color> <!-- Bottom nav bar (light yellow) -->
-
+    <color name="income_green">#4CAF50</color>
+    <color name="income_green_light">#E8F5E9</color>
+    <color name="expense_red">#F44336</color>
+    <color name="expense_red_light">#FFEBEE</color>
+    <color name="balance_blue">#2196F3</color>
+    <color name="balance_blue_light">#E3F2FD</color>
+    <color name="progress_track">#EEEEEE</color>
+    <color name="burgundy_dark">#800020</color>
     <!-- Primary buttons -->
     <color name="fab_background">#831B19</color> <!-- Add (+) button deep red -->
     <color name="fab_icon_tint">#FFFFFF</color>   <!-- White icon inside FAB -->
+    <color name="light_gray">#FAFAFA</color>
+    <color name="dark_text">#212121</color>
+
 
     <!-- Icon Circles -->
     <color name="icon_circle">#F0B72A</color> <!-- Yellow-orange circle background -->

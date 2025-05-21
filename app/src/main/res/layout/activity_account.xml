@@ -7,11 +7,13 @@
     android:background="@color/gray">
 
     <!-- Scrollable content (Account settings) -->
+    <!-- Scrollable content (Account settings) -->
     <ScrollView
         android:id="@+id/accountScroll"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:fillViewport="true"
+        android:overScrollMode="never"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@id/bottomNavBar"
         app:layout_constraintStart_toStartOf="parent"
@@ -24,70 +26,138 @@
             android:gravity="center_horizontal"
             android:padding="24dp">
 
-            <ImageView
-                android:id="@+id/imgProfile"
+            <!-- Profile picture with circular border -->
+            <FrameLayout
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:src="@drawable/ic_account"
-                android:background="@drawable/bg_circle"
-                android:scaleType="centerCrop"
-                android:layout_marginTop="16dp"/>
-
-            <EditText
-                android:id="@+id/etUsername"
-                android:minHeight="48dp"
-                android:autofillHints="username"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Username"
-                android:inputType="textPersonName"
                 android:layout_marginTop="16dp"
-                android:enabled="false"/>
+                android:background="@drawable/bg_circle_burgundy">
 
-            <EditText
-                android:id="@+id/etEmail"
-                android:minHeight="48dp"
-                android:autofillHints="emailAddress"
+                <ImageView
+                    android:id="@+id/imgProfile"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:background="@drawable/bg_circle"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_account" />
+            </FrameLayout>
+
+            <!-- Username field -->
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:hint="Username"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                app:boxStrokeColor="@color/burgundy"
+                app:boxStrokeWidth="1dp"
+                app:boxCornerRadiusTopStart="8dp"
+                app:boxCornerRadiusTopEnd="8dp"
+                app:boxCornerRadiusBottomStart="8dp"
+                app:boxCornerRadiusBottomEnd="8dp">
+
+                <EditText
+                    android:id="@+id/etUsername"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="48dp"
+                    android:autofillHints="username"
+                    android:inputType="textPersonName"
+                    android:enabled="false"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Email field -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
                 android:hint="Email"
-                android:inputType="textEmailAddress"
-                android:layout_marginTop="8dp"
-                android:enabled="false"/>
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                app:boxStrokeColor="@color/burgundy"
+                app:boxStrokeWidth="1dp"
+                app:boxCornerRadiusTopStart="8dp"
+                app:boxCornerRadiusTopEnd="8dp"
+                app:boxCornerRadiusBottomStart="8dp"
+                app:boxCornerRadiusBottomEnd="8dp">
 
-            <EditText
-                android:id="@+id/etDefaultIncome"
-                android:minHeight="48dp"
-                android:autofillHints="username"
+                <EditText
+                    android:id="@+id/etEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="48dp"
+                    android:autofillHints="emailAddress"
+                    android:inputType="textEmailAddress"
+                    android:enabled="false"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Default Income field -->
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
                 android:hint="Default Income"
-                android:inputType="numberDecimal"
-                android:layout_marginTop="8dp"
-                android:enabled="false"/>
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                app:boxStrokeColor="@color/burgundy"
+                app:boxStrokeWidth="1dp"
+                app:boxCornerRadiusTopStart="8dp"
+                app:boxCornerRadiusTopEnd="8dp"
+                app:boxCornerRadiusBottomStart="8dp"
+                app:boxCornerRadiusBottomEnd="8dp">
 
-            <Button
-                android:id="@+id/btnEdit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Update your info"
-                android:layout_marginTop="16dp"/>
-            <Button
-                android:id="@+id/btnLogout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Log Out"
-                android:textColor="@android:color/white"
-                android:backgroundTint="@color/burgundy"
-                android:layout_marginTop="16dp"/>
-            <Button
-                android:id="@+id/btnExportPdf"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Exporter PDF"
-                android:layout_marginTop="20dp" />
+                <EditText
+                    android:id="@+id/etDefaultIncome"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="48dp"
+                    android:autofillHints="username"
+                    android:inputType="numberDecimal"
+                    android:enabled="false"/>
+            </com.google.android.material.textfield.TextInputLayout>
 
+            <!-- Buttons Container -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="24dp"
+                android:paddingHorizontal="16dp">
 
+                <!-- Update Info Button -->
+                <Button
+                    android:id="@+id/btnEdit"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:text="Update your info"
+                    android:textColor="@color/burgundy"
+                    android:background="@drawable/button_outline_burgundy"
+                    android:layout_marginTop="8dp"
+                    android:textAllCaps="false"
+                    android:stateListAnimator="@null"/>
+
+                <!-- Export PDF Button -->
+                <Button
+                    android:id="@+id/btnExportPdf"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:text="Exporter PDF"
+                    android:textColor="@color/burgundy"
+                    android:background="@drawable/button_outline_burgundy"
+                    android:layout_marginTop="16dp"
+                    android:textAllCaps="false"
+                    android:stateListAnimator="@null"/>
+
+                <!-- Logout Button -->
+                <Button
+                    android:id="@+id/btnLogout"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:text="Log Out"
+                    android:textColor="@android:color/white"
+                    android:backgroundTint="@color/burgundy"
+                    android:layout_marginTop="16dp"
+                    android:textAllCaps="false"
+                    android:stateListAnimator="@null"/>
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 
