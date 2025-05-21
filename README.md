@@ -1,11 +1,8 @@
-# 💰 Personal Finance Manager - Gestionnaire de Finances Personnelles
-
+# 💰 Personal Finance Manager 
 
 An Android mobile application to track expenses, manage monthly budgets, analyze finances, and get personalized recommendations.
 
-Une application mobile Android pour suivre ses dépenses, gérer son budget mensuel, analyser ses finances et obtenir des recommandations personnalisées.
-
-## ✨ Features / Fonctionnalités
+## ✨ Features 
 
 ### 📊 Core Features
 - 💵 Income & expense tracking by category
@@ -22,7 +19,7 @@ Une application mobile Android pour suivre ses dépenses, gérer son budget mens
 - 🔐 Firebase Authentication (Email + Google)
 - 💾 Local data storage with Room DB
 
-## 🛠️ Technologies / Technologies utilisées
+## 🛠️ Technologies 
 
 | Category           | Technologies                          |
 |--------------------|---------------------------------------|
@@ -34,12 +31,12 @@ Une application mobile Android pour suivre ses dépenses, gérer son budget mens
 
 ## 🚀 Installation & Setup
 
-### Prerequisites / Prérequis
+### Prerequisites 
 - Android Studio Flamingo or later
 - Android SDK 33+
 - Java JDK 17
 
-### Setup Instructions / Configuration
+### Setup Instructions 
 
 1. **Clone the repository**
    ```bash
