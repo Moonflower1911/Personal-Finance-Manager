@@ -15,12 +15,21 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.personal_finance_manager.R;
 import com.example.personal_finance_manager.ViewModel.CategoryViewModel;
 import com.example.personal_finance_manager.ViewModel.ExpenseViewModel;
+import com.example.personal_finance_manager.ViewModel.IncomeViewModel;
+import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.formatter.PercentFormatter;
+import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.time.LocalDate;
@@ -28,12 +37,15 @@ import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class AnalysisActivity extends BaseActivity {
 
     private PieChart pieChart;
+    private BarChart barChart;
     private ExpenseViewModel expenseVM;
     private CategoryViewModel categoryVM;
+    private IncomeViewModel incomeVM;
     private TextView tvCurrentMonth;
     private ImageButton btnPrevMonth, btnNextMonth;
     private FloatingActionButton fab;
@@ -47,6 +59,11 @@ public class AnalysisActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_statistics);
 
+        // Initialize ViewModels
+        expenseVM = new ViewModelProvider(this).get(ExpenseViewModel.class);
+        categoryVM = new ViewModelProvider(this).get(CategoryViewModel.class);
+        incomeVM = new ViewModelProvider(this).get(IncomeViewModel.class);
+
         userId = getIntent().getStringExtra("userId");
         setupBottomNavBar(userId);
 
@@ -59,13 +76,12 @@ public class AnalysisActivity extends BaseActivity {
         btnPrevMonth = findViewById(R.id.btnPreviousMonth);
         btnNextMonth = findViewById(R.id.btnNextMonth);
 
-        // Initialize chart
+        // Initialize charts
         pieChart = findViewById(R.id.pieChart);
         configurePieChart();
 
-        // Initialize ViewModels
-        expenseVM = new ViewModelProvider(this).get(ExpenseViewModel.class);
-        categoryVM = new ViewModelProvider(this).get(CategoryViewModel.class);
+        barChart = findViewById(R.id.barChart);
+        configureBarChart();
 
         // Initialize date formatters and current month
         monthYearFormatter = DateTimeFormatter.ofPattern("MMMM - yyyy");
@@ -95,6 +111,7 @@ public class AnalysisActivity extends BaseActivity {
             pieChart.clear();
             loadChartData();
         });
+
         fab = findViewById(R.id.fabAddCategory);
         fab.setOnClickListener(v -> {
             Intent intent = new Intent(AnalysisActivity.this, CategoryActivity.class);
@@ -104,6 +121,7 @@ public class AnalysisActivity extends BaseActivity {
 
         // Load initial chart data
         loadChartData();
+        loadBarChartData();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -134,6 +152,159 @@ public class AnalysisActivity extends BaseActivity {
         legend.setHorizontalAlignment(Legend.LegendHorizontalAlignment.RIGHT);
         legend.setOrientation(Legend.LegendOrientation.VERTICAL);
         legend.setDrawInside(false);
+    }
+
+    /** Configure bar chart appearance */
+    private void configureBarChart() {
+        barChart.getDescription().setEnabled(false);
+        barChart.setDrawGridBackground(false);
+        barChart.setDrawBarShadow(false);
+        barChart.setDrawValueAboveBar(true);
+        barChart.setPinchZoom(false);
+        barChart.setScaleEnabled(false);
+        barChart.setDoubleTapToZoomEnabled(false);
+
+        // X-axis configuration
+        XAxis xAxis = barChart.getXAxis();
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setGranularity(1f);
+        xAxis.setDrawGridLines(false);
+        xAxis.setTextSize(10f);
+
+        // Y-axis configuration
+        YAxis leftAxis = barChart.getAxisLeft();
+        leftAxis.setDrawGridLines(true);
+        leftAxis.setAxisMinimum(0f);
+        leftAxis.setSpaceTop(30f); // Give some space at the top for the values
+
+        YAxis rightAxis = barChart.getAxisRight();
+        rightAxis.setEnabled(false);
+
+        // Legend configuration
+        Legend barLegend = barChart.getLegend();
+        barLegend.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
+        barLegend.setHorizontalAlignment(Legend.LegendHorizontalAlignment.RIGHT);
+        barLegend.setOrientation(Legend.LegendOrientation.HORIZONTAL);
+        barLegend.setDrawInside(false);
+        barLegend.setForm(Legend.LegendForm.SQUARE);
+        barLegend.setFormSize(9f);
+        barLegend.setTextSize(11f);
+        barLegend.setXEntrySpace(4f);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private void loadBarChartData() {
+        List<BarEntry> incomeEntries = new ArrayList<>();
+        List<BarEntry> expenseEntries = new ArrayList<>();
+        List<String> labels = new ArrayList<>();
+        YearMonth current = YearMonth.now();
+
+        // We need to track when all async operations are complete
+        final AtomicInteger pendingOperations = new AtomicInteger(12); // 6 months * 2 data points per month
+
+        for (int i = 5; i >= 0; i--) {
+            YearMonth targetMonth = current.minusMonths(i);
+            String formattedMonth = targetMonth.toString(); // yyyy-MM
+            String label = targetMonth.getMonth().toString().substring(0, 3); // JAN, FEB...
+            labels.add(label);
+
+            final int index = 5 - i;
+
+            // Load expense data
+            expenseVM.getTotalExpensesForUserMonth(userId, formattedMonth).observe(this, total -> {
+                float amount = (total != null) ? total.floatValue() : 0f;
+                expenseEntries.add(new BarEntry(index, amount));
+
+                if (pendingOperations.decrementAndGet() == 0) {
+                    drawBarChart(incomeEntries, expenseEntries, labels);
+                }
+            });
+
+            // Load income data
+            incomeVM.getIncome(userId, formattedMonth).observe(this, income -> {
+                float amount = (income != null) ? (float) income.incomeAmount : 0f;
+                incomeEntries.add(new BarEntry(index, amount));
+
+                if (pendingOperations.decrementAndGet() == 0) {
+                    drawBarChart(incomeEntries, expenseEntries, labels);
+                }
+            });
+        }
+    }
+
+    private void drawBarChart(List<BarEntry> incomeEntries, List<BarEntry> expenseEntries, List<String> labels) {
+        // Tri des entrées par ordre chronologique
+        incomeEntries.sort((e1, e2) -> Float.compare(e1.getX(), e2.getX()));
+        expenseEntries.sort((e1, e2) -> Float.compare(e1.getX(), e2.getX()));
+
+        // Jeu de données revenus
+        BarDataSet incomeDataSet = new BarDataSet(incomeEntries, "Revenus");
+        incomeDataSet.setColor(Color.parseColor("#4CAF50")); // vert plus contrasté
+        incomeDataSet.setValueTextColor(Color.DKGRAY);
+        incomeDataSet.setValueTextSize(11f);
+
+        // Jeu de données dépenses
+        BarDataSet expenseDataSet = new BarDataSet(expenseEntries, "Dépenses");
+        expenseDataSet.setColor(Color.parseColor("#E53935")); // rouge clair
+        expenseDataSet.setValueTextColor(Color.DKGRAY);
+        expenseDataSet.setValueTextSize(11f);
+
+        // Construction des données du graphique
+        BarData barData = new BarData(incomeDataSet, expenseDataSet);
+
+        float groupSpace = 0.25f;  // espace entre les groupes
+        float barSpace = 0.04f;    // espace entre les barres dans un groupe
+        float barWidth = 0.33f;    // largeur de chaque barre
+
+        barData.setBarWidth(barWidth);
+        barChart.setData(barData);
+
+        int groupCount = labels.size();
+
+        // Configuration de l’axe X
+        XAxis xAxis = barChart.getXAxis();
+        xAxis.setAxisMinimum(0f);
+        xAxis.setAxisMaximum(0f + groupCount);
+        xAxis.setCenterAxisLabels(true);
+        xAxis.setGranularity(1f);
+        xAxis.setTextSize(12f);
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+        xAxis.setDrawGridLines(false);
+        xAxis.setLabelRotationAngle(-15f);  // incliner les labels
+        xAxis.setValueFormatter(new IndexAxisValueFormatter(labels));
+
+        // Configuration axe Y gauche
+        YAxis leftAxis = barChart.getAxisLeft();
+        leftAxis.setDrawGridLines(true);
+        leftAxis.setAxisMinimum(0f);
+        leftAxis.setTextSize(12f);
+
+        // Désactiver l’axe droit
+        barChart.getAxisRight().setEnabled(false);
+
+        // Autres réglages
+        barChart.getDescription().setEnabled(false);
+        barChart.setDrawGridBackground(false);
+        barChart.setDrawBarShadow(false);
+        barChart.setDoubleTapToZoomEnabled(false);
+        barChart.setPinchZoom(false);
+        barChart.setScaleEnabled(false);
+        barChart.setFitBars(true);
+        barChart.setExtraBottomOffset(12f); // pour éviter que les labels soient coupés
+
+        // Légende
+        Legend legend = barChart.getLegend();
+        legend.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
+        legend.setHorizontalAlignment(Legend.LegendHorizontalAlignment.RIGHT);
+        legend.setOrientation(Legend.LegendOrientation.HORIZONTAL);
+        legend.setTextSize(12f);
+        legend.setDrawInside(false);
+
+        // Grouper les barres (très important)
+        barChart.groupBars(0f, groupSpace, barSpace);
+
+        // Rafraîchissement final
+        barChart.invalidate();
     }
 
     /** Load expenses by category and draw the chart */

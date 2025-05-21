@@ -478,21 +478,73 @@ public class BudgetActivity extends BaseActivity {
         // Simulation de lignes CSV
         String[] csvLines = {
                 "date,amount,categoryName,description",
-                "2025-05-01,800,Rent / Mortgage,Loyer du mois",
-                "2025-05-02,50,Water,Lydec facture avril",
-                "2025-05-03,300,Electricity,Electricité mars",
-                "2025-05-04,150,Gas,Bon de gaz",
-                "2025-05-05,200,Internet,Maroc Telecom",
-                "2025-05-06,600,Groceries,Marjane courses",
-                "2025-05-07,40,Transport,Uber Casablanca",
-                "2025-05-08,120,Health,Pharmacie centrale",
-                "2025-05-09,90,Food & Dining,McDonald's",
-                "2025-05-10,100,Leisure,Cinéma IMAX",
-                "2025-05-11,250,Clothing,Zara shopping",
-                "2025-05-12,180,Fitness,Abonnement salle"
+                "2025-01-01,800,Rent / Mortgage,Loyer Janvier",
+                "2025-01-02,55,Water,Lydec Janvier",
+                "2025-01-03,320,Electricity,Electricité Janvier",
+                "2025-01-04,140,Gas,Bon de gaz Janvier",
+                "2025-01-05,200,Internet,Abonnement Janvier",
+                "2025-01-06,620,Groceries,Aswak Assalam",
+                "2025-01-07,50,Transport,Taxi",
+                "2025-01-08,100,Health,Consultation",
+                "2025-01-09,120,Food & Dining,Pizza Hut",
+                "2025-01-10,70,Leisure,Parc de jeux",
+                "2025-01-11,220,Clothing,Zara soldes",
+                "2025-01-12,150,Fitness,Salle Janvier",
+
+                "2025-02-01,800,Rent / Mortgage,Loyer Février",
+                "2025-02-02,60,Water,Lydec Février",
+                "2025-02-03,310,Electricity,Facture Février",
+                "2025-02-04,160,Gas,Bon de gaz",
+                "2025-02-05,210,Internet,Internet Février",
+                "2025-02-06,590,Groceries,Carrefour",
+                "2025-02-07,45,Transport,Tramway",
+                "2025-02-08,110,Health,Pharmacie",
+                "2025-02-09,95,Food & Dining,KFC",
+                "2025-02-10,90,Leisure,Cinéma",
+                "2025-02-11,180,Clothing,H&M",
+                "2025-02-12,170,Fitness,Fitness Park",
+
+                "2025-03-01,850,Rent / Mortgage,Loyer Mars",
+                "2025-03-02,48,Water,Lydec Mars",
+                "2025-03-03,295,Electricity,Facture Mars",
+                "2025-03-04,155,Gas,Bon de gaz Mars",
+                "2025-03-05,220,Internet,Abonnement Orange",
+                "2025-03-06,610,Groceries,Marché local",
+                "2025-03-07,60,Transport,Essence",
+                "2025-03-08,130,Health,Ophtalmologue",
+                "2025-03-09,105,Food & Dining,Snack local",
+                "2025-03-10,85,Leisure,Concert live",
+                "2025-03-11,240,Clothing,Pull & Bear",
+                "2025-03-12,160,Fitness,Salle Mars",
+
+                "2025-04-01,900,Rent / Mortgage,Loyer Avril",
+                "2025-04-02,50,Water,Lydec Avril",
+                "2025-04-03,330,Electricity,Facture Avril",
+                "2025-04-04,165,Gas,Bon de gaz",
+                "2025-04-05,225,Internet,Internet Avril",
+                "2025-04-06,630,Groceries,Marjane",
+                "2025-04-07,55,Transport,Bus",
+                "2025-04-08,115,Health,Dentiste",
+                "2025-04-09,100,Food & Dining,Sushi House",
+                "2025-04-10,95,Leisure,Escape Game",
+                "2025-04-11,260,Clothing,Mango",
+                "2025-04-12,150,Fitness,Salle Avril",
+
+                "2025-05-01,880,Rent / Mortgage,Loyer Mai",
+                "2025-05-02,52,Water,Lydec Mai",
+                "2025-05-03,300,Electricity,Facture Mai",
+                "2025-05-04,145,Gas,Bon de gaz",
+                "2025-05-05,215,Internet,Internet Mai",
+                "2025-05-06,600,Groceries,Marché du coin",
+                "2025-05-07,48,Transport,Téléphérique",
+                "2025-05-08,125,Health,Visite médicale",
+                "2025-05-09,110,Food & Dining,Burger King",
+                "2025-05-10,80,Leisure,Jeux VR",
+                "2025-05-11,230,Clothing,C&A",
+                "2025-05-12,155,Fitness,Abonnement Mai"
         };
 
-        // Mappage nom de catégorie -> ID (doit correspondre à ta DB)
+
         Map<String, Integer> categoryMap = new HashMap<>();
         categoryMap.put("Rent / Mortgage", 1);
         categoryMap.put("Water", 2);
@@ -506,6 +558,7 @@ public class BudgetActivity extends BaseActivity {
         categoryMap.put("Leisure", 10);
         categoryMap.put("Clothing", 11);
         categoryMap.put("Fitness", 12);
+
 
 
         for (int i = 1; i < csvLines.length; i++) {
