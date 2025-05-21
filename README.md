@@ -8,28 +8,19 @@ Une application mobile Android pour suivre ses dépenses, gérer son budget mens
 ## ✨ Features / Fonctionnalités
 
 ### 📊 Core Features
-- 💵 Income & expense tracking by category  
-  *Suivi des revenus et dépenses par catégorie*
-- 📈 Data visualization (pie charts & bar graphs)  
-  *Visualisation via diagrammes et histogrammes*
-- 📅 Monthly and 6-month analysis  
-  *Analyse mensuelle et sur 6 mois*
-- 🔍 Transaction search and filtering  
-  *Recherche et filtrage des transactions*
+- 💵 Income & expense tracking by category
+- 📈 Data visualization (pie charts & bar graphs)   
+- 📅 Monthly and 6-month analysis
+- 🔍 Transaction search and filtering
 
 ### 🤖 Smart Features
-- 🧠 Budget limit recommendations (TensorFlow Lite)  
-  *Recommandations de limites budgétaires (ML)*
-- 🔔 Spending alerts and notifications  
-  *Alertes de dépenses*
-- 📤 PDF export functionality  
-  *Export PDF des données*
+- 🧠 Budget limit recommendations (TensorFlow Lite)
+- 🔔 Spending alerts and notifications
+- 📤 PDF export functionality
 
 ### 🔒 Security
-- 🔐 Firebase Authentication (Email + Google)  
-  *Authentification sécurisée*
-- 💾 Local data storage with Room DB  
-  *Stockage local des données*
+- 🔐 Firebase Authentication (Email + Google)
+- 💾 Local data storage with Room DB
 
 ## 🛠️ Technologies / Technologies utilisées
 
@@ -39,7 +30,6 @@ Une application mobile Android pour suivre ses dépenses, gérer son budget mens
 | Architecture       | MVVM with Repository pattern          |
 | Database           | ![RoomDB](https://img.shields.io/badge/Room-4285F4?style=flat&logo=google-cloud&logoColor=white) |
 | Authentication     | ![Firebase](https://img.shields.io/badge/Firebase-FFCA28?style=flat&logo=firebase&logoColor=black) |
-| Data Visualization | ![MPAndroidChart](https://img.shields.io/badge/MPAndroidChart-6DB33F?style=flat) |
 | Machine Learning   | ![TensorFlow Lite](https://img.shields.io/badge/TensorFlow_Lite-FF6F00?style=flat&logo=tensorflow&logoColor=white) |
 
 ## 🚀 Installation & Setup
@@ -63,10 +53,6 @@ Une application mobile Android pour suivre ses dépenses, gérer son budget mens
 * Open in Android Studio
 * Build the project
 * Run on emulator or physical device
-
-
-### Alternative Approaches:
-
 
 ## 📂 Project Structure
 
